@@ -1,0 +1,325 @@
+#%RAML 0.8
+title: Api
+version: 1
+baseUri: http://test.loc/api
+/user:
+  /register:
+    post:
+      description: User registration
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": true,
+                  "message": "user created"
+                }
+              schema: |
+                {
+                  "type": "object",
+                  "required": true,
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "required": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "required": true
+                    }
+                  }
+                }
+        405:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "invalid method"
+                }
+        403:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "user already exists"
+                }
+        400:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "lacks parameters or not valid"
+                }
+      queryParameters:
+          username:
+            pattern: ^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$
+            required: true
+          password:
+            required: true
+  /login:
+    post:
+      description: User log-in
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": true,
+                  "message": "user was logged",
+                  "data": {
+                    "expires": "2016-05-25 08:39:22",
+                    "token": "YWIwNzQ3ZjBkYjA3M2JhZTYxM"
+                  }
+                }
+              schema: |
+                {
+                  "type": "object",
+                  "required": true,
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "required": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": true,
+                      "properties": {
+                        "token": {
+                          "type": "string",
+                          "required": true
+                        },
+                        "expires": {
+                          "type": "string",
+                          "required": true
+                        }
+                      }
+                    }
+                  }
+                }
+        405:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "invalid method"
+                }
+        403:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "invalid credentials"
+                }
+        400:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "lacks parameters"
+                }
+      queryParameters:
+          username:
+            required: true
+          password:
+            required: true
+/post:
+  /add:
+    post:
+      description: Add new post
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": true,
+                  "message": "post added",
+                  "data": {
+                    "post_id": 3
+                  }
+                }
+              schema: |
+                {
+                  "type": "object",
+                  "required": true,
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "required": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": true,
+                      "properties": {
+                        "post_id": {
+                          "type": "integer",
+                          "required": true
+                        }
+                      }
+                    }
+                  }
+                }
+        405:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "invalid method"
+                }
+        403:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "please log-in"
+                }
+        400:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "lacks parameters"
+                }
+      queryParameters:
+          text:
+            required: true
+      headers:
+        Token:
+          required: true
+  /delete:
+    post:
+      description: Delete post by id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": true,
+                  "message": "post was deleted"
+                }
+              schema: |
+                {
+                  "type": "object",
+                  "required": true,
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "required": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "required": true
+                    }
+                  }
+                }
+        405:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "invalid method"
+                }
+        403:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "please log-in"
+                }
+        400:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "lacks parameters"
+                }
+      queryParameters:
+          id:
+            type: "integer"
+            required: true
+      headers:
+        Token:
+          required: true
+  /update:
+    post:
+      description: Update post
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": true,
+                  "message": "post was updated"
+                }
+              schema: |
+                {
+                  "type": "object",
+                  "required": true,
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "required": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "required": true
+                    }
+                  }
+                }
+        405:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "invalid method"
+                }
+        403:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "no rights to edit"
+                }
+        400:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": false,
+                  "message": "lacks parameters"
+                }
+      queryParameters:
+          id:
+            type: "integer"
+            required: true
+          text:
+            required: true
+      headers:
+        Token:
+          required: true

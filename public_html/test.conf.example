@@ -1,0 +1,11 @@
+<VirtualHost *:80>
+    ServerName test.loc
+    DocumentRoot "/home/vova/sites/test/public_html/public/"
+    <Directory "/home/vova/sites/test/public_html/public/">
+	Options +Indexes +FollowSymLinks -MultiViews
+	AllowOverride All
+	Require all granted
+    </Directory>
+    CustomLog "/home/vova/sites/test/logs/access.log" combined
+    ErrorLog "/home/vova/sites/test/logs/error.log"
+</VirtualHost>

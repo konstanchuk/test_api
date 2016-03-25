@@ -1,0 +1,14 @@
+{
+    "name": "v.konstanchuk/rest-api",
+    "description": "Test Task",
+    "keywords": [
+        "api",
+        "rest"
+    ],
+    "require": {
+        "php": ">=5.5",
+        "zendframework/zendframework": "2.*@dev",
+        "zendframework/zend-crypt": "^2.6",
+        "zendframework/zend-validator": "^2.6"
+    }
+}
