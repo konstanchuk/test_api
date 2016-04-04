@@ -1,22 +1,22 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 class Robot
 {
-
+    public $speed = 10;
+    public $weight = 10;
 }
 
 
 class MyHydra1 extends Robot
 {
-
+    public $speed = 11;
+    public $weight = 99;
 }
 
 class MyHydra2 extends Robot
 {
-
+    public $speed = 12;
+    public $weight = 1;
 }
 
 
@@ -32,14 +32,7 @@ class Factory
                 if (isset($this->types[$key])) {
                     $objects = [];
                     for($i = 0; $i < $args[0]; ++$i) {
-                        $obj = clone $this->types[$key];
-                        if ($obj instanceof Robot) {
-                            $objects[] = clone $this->types[$key];
-                        } else {
-                            foreach($obj->getRobots() as $r) {
-                                $objects[] = $r;
-                            }
-                        }
+                        $objects[] = clone $this->types[$key];
                     }
                     return $objects;
                 }
@@ -72,6 +65,16 @@ class UnionRobot
     {
         return $this->robots;
     }
+
+    public function getSpeed()
+    {
+        return min(array_map(function($v) { return $v->speed; }, $this->robots));
+    }
+
+    public function getWeight()
+    {
+        return array_sum(array_map(function($v) { return $v->weight; }, $this->robots));
+    }
 }
 
 
@@ -84,11 +87,12 @@ var_dump($factory->createMyHydra1(5));
 var_dump($factory->createMyHydra2(2));
 
 $unionRobot = new UnionRobot();
-$unionRobot->addRobot(new MyHydra2());
+$unionRobot->addRobot(new MyHydra1());
 $unionRobot->addRobot($factory->createMyHydra2(2));
 $factory->addType($unionRobot);
 
 var_dump($factory->createUnionRobot(1));
 
-$reset = $factory->createUnionRobot(1);
-
+$res = reset($factory->createUnionRobot(1));
+echo $res->getSpeed() . '<br />';
+echo $res->getWeight();
