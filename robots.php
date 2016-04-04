@@ -2,21 +2,24 @@
 
 class Robot
 {
-    public $speed = 10;
-    public $weight = 10;
+    protected $speed = 10;
+    protected $weight = 10;
+
+    protected function getSpeed() { return $this->speed; }
+    protected function getWeight() { return $this->weight; }
 }
 
 
 class MyHydra1 extends Robot
 {
-    public $speed = 11;
-    public $weight = 99;
+    protected $speed = 11;
+    protected $weight = 99;
 }
 
 class MyHydra2 extends Robot
 {
-    public $speed = 12;
-    public $weight = 1;
+    protected $speed = 12;
+    protected $weight = 1;
 }
 
 
@@ -36,7 +39,7 @@ class Factory
                     }
                     return $objects;
                 }
-            break;
+                break;
         }
     }
 
@@ -46,9 +49,9 @@ class Factory
     }
 }
 
-class UnionRobot
+class UnionRobot extends Robot
 {
-    public $robots;
+    protected $robots;
 
     public function addRobot($robot)
     {
@@ -68,12 +71,12 @@ class UnionRobot
 
     public function getSpeed()
     {
-        return min(array_map(function($v) { return $v->speed; }, $this->robots));
+        return min(array_map(function($v) { return $v->getSpeed(); }, $this->robots));
     }
 
     public function getWeight()
     {
-        return array_sum(array_map(function($v) { return $v->weight; }, $this->robots));
+        return array_sum(array_map(function($v) { return $v->getWeight(); }, $this->robots));
     }
 }
 
