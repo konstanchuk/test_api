@@ -5,10 +5,9 @@ class Robot
     protected $speed = 10;
     protected $weight = 10;
 
-    protected function getSpeed() { return $this->speed; }
-    protected function getWeight() { return $this->weight; }
+    public function getSpeed() { return $this->speed; }
+    public function getWeight() { return $this->weight; }
 }
-
 
 class MyHydra1 extends Robot
 {
@@ -21,7 +20,6 @@ class MyHydra2 extends Robot
     protected $speed = 12;
     protected $weight = 1;
 }
-
 
 class Factory
 {
